@@ -9,10 +9,10 @@ const db = mysql.createConnection(
   {
     host: "localhost",
     user: "root",
-    database: "employee_tracker",
+    database: "employee_db",
     password: "password",
   },
-  console.log(`Connected to the employee_tracker database.`)
+  console.log(`Connected to the employee_db database.`)
 );
 db.connect((err) => {
   if (err) throw err;
