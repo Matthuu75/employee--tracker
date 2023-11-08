@@ -16,5 +16,49 @@ const db = mysql.createConnection(
 db.connect((err) => {
     if (err) throw err;
     console.log('connected as id ' + db.threadId);
-    start();
 });
+
+function menuPrompt() {
+    inquirer.prompt({
+        type: 'list',
+        name: 'start',
+        message: 'What would you like?',
+        choices: [
+            'View All Employees',
+            'View All Departments',
+            'View All Roles',
+            'Add Employee', 
+            'Add Department', 
+            'Add Role', 
+            'Update Employee Role',
+            'Exit'
+        ]
+    }).then(answer => {
+        switch (answer.start) {
+            case 'View All Employees':
+                viewEmployees();
+                break;
+            case 'View All Departments':
+                viewDepartments();
+                break;
+            case 'View All Roles':
+                viewRoles();
+                break;
+            case 'Add Employee':
+                addEmployee();
+                break;
+            case 'Add Department':
+                addDepartment();
+                break;
+            case 'Add Role':
+                addRole();
+                break;
+            case 'Update Employee Role':
+                updateRole();
+                break;
+            case 'Exit':
+                db.end();
+                break;
+        }
+    });
+}
