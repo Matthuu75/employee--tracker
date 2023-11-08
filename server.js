@@ -15,26 +15,26 @@ const db = mysql.createConnection(
   console.log(`Connected to the employee_db database.`)
 );
 db.connect((err) => {
-  if (err) throw err;
+  if (err);
   console.log("connected as id " + db.threadId);
 });
 
 function menuPrompt() {
   inquirer.prompt({
-      type: "list",
-      name: "start",
-      message: "What would you like?",
-      choices: [
-        "View All Employees",
-        "View All Departments",
-        "View All Roles",
-        "Add Employee",
-        "Add Department",
-        "Add Role",
-        "Update Employee Role",
-        "Exit",
-      ],
-    })
+    type: "list",
+    name: "start",
+    message: "What would you like?",
+    choices: [
+      "View All Employees",
+      "View All Departments",
+      "View All Roles",
+      "Add Employee",
+      "Add Department",
+      "Add Role",
+      "Update Employee Role",
+      "Exit",
+    ],
+  })
     .then((answer) => {
       switch (answer.start) {
         case "View All Employees":
@@ -65,20 +65,55 @@ function menuPrompt() {
     });
 }
 
+function viewDepartments() {
+  db.query("SELECT * FROM department", function (err, results) {
+    if (err) throw err;
+    console.table(results);
+    menuPrompt();
+  });
+}
+
+function viewRoles() {
+  db.query("SELECT * FROM role", function (err, results) {
+    if (err) throw err;
+    console.table(results);
+    menuPrompt();
+  });
+}
+
 function viewEmployees() {
   db.query("SELECT * FROM employee", function (err, results) {
+    if (err) throw err;
+    console.table(results);
+    menuPrompt();
+  });
+}
+
+function viewEmployees() {
+  const sql = `
+  SELECT employee.id,
+  employee.first_name, 
+  employee.last_name, 
+  role.title, 
+  department.name AS department, 
+  role.salary, 
+  CONCAT(manager.first_name, manager.last_name) AS manager`;
+  db.query("SELECT * FROM employee", function (err, results) {
+    if (err) throw err;
     console.table(results);
     menuPrompt();
   });
 }
 function viewDepartments() {
   db.query("SELECT * FROM department", function (err, results) {
+    if (err) throw err;
     console.table(results);
     menuPrompt();
   });
 }
 function viewRoles() {
   db.query("SELECT * FROM role", function (err, results) {
+    if (err) throw err;
     console.table(results);
     menuPrompt();
   });
@@ -100,11 +135,6 @@ function addEmployee() {
         type: "input",
         name: "role_id",
         message: "What is the role ID of the employee?",
-      },
-      {
-        type: "input",
-        name: "manager_id",
-        message: "What is the manager ID of the employee?",
       },
     ])
     .then((answer) => {
