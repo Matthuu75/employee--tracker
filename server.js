@@ -2,7 +2,7 @@ require("dotenv").config();
 const inquirer = require('inquirer');
 const express = require("express");
 const mysql = require("mysql2");
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 const db = mysql.createConnection(
@@ -20,8 +20,7 @@ db.connect((err) => {
 });
 
 function menuPrompt() {
-  inquirer
-    .prompt({
+  inquirer.prompt({
       type: "list",
       name: "start",
       message: "What would you like?",
